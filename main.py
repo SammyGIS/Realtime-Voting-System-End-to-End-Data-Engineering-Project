@@ -1,9 +1,16 @@
 import psycopg2
+import requests
+import random
 
+
+BASE_URL = 'https://randoomuser.me/api/?nat=gb'
+PARTIES = ["Management_Party", "Saviour Party", ]
+
+random.seed(21)
 
 def create_tables (conn, cur):
 
-    curr.execute(
+    cur.execute(
         """
         CREATE TABLE IF  NOT EXISTS candidates(
         candidate_id VARCHAR(255) PRIMARY KEY,
@@ -15,7 +22,7 @@ def create_tables (conn, cur):
         )
     """)
     
-    curr.execute("""
+    cur.execute("""
         CREATE TBALE IF NOT EXISTS voters(
                  voter_id VARCHAR(255) PRIMAR KEY,
                  voter_name VARCHAR (255),
@@ -35,7 +42,7 @@ def create_tables (conn, cur):
 
                 )
         """)
-    curr.execute("""
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS votes(
                  voter_id VARCHAR(255) UNIQUE,
                  candidate_id VARCHAR(255),
@@ -45,7 +52,8 @@ def create_tables (conn, cur):
        
         """)
     
-
+def generate_candidate_data(candiate_number, total_parties):
+    responses = requests.get()
 
 
     
@@ -54,13 +62,22 @@ if __name__ == '__main__':
 
     try:
         conn = psycopg2.connect(
-            "host=localhost dbname=voting ucer=postgres password=postgres"
-        )
+            "host=localhost dbname=voting ucer=postgres password=postgres"        )
 
-        curr = conn.cursor()
+        cur = conn.cursor()
 
-        cur= conn.cursor()
+        create_tables(conn,cur)
 
+        cur.execute("""
+            SELECT * FROM candidates        
+                    """)
+        
+        candidates = cur.fetchall()
+        print(candidates)
+
+        if len(candidates) ==0:
+            for i in range(3):
+                candidate = generate_candidate_data(i, total_parties=3)
 
     except Exception as e:
         print(e)
