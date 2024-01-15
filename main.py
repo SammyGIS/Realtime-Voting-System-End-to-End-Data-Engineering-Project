@@ -53,7 +53,15 @@ def create_tables (conn, cur):
         """)
     
 def generate_candidate_data(candiate_number, total_parties):
-    responses = requests.get()
+    response = requests.get(BASE_URL+'&gender=' + ('female' if candidate_number %2 == 1 else 'male')):
+    if response.status_code == 200:
+        user_data = response.json()['results'][0]
+
+
+        return {
+            'candiate_id':user_data['login']['uuid'],
+            'candidate_name': f"user_data['name']['first]"
+        }
 
 
     
@@ -62,7 +70,7 @@ if __name__ == '__main__':
 
     try:
         conn = psycopg2.connect(
-            "host=localhost dbname=voting ucer=postgres password=postgres"        )
+            "host=localhost dbname=voting user=postgres password=postgres"        )
 
         cur = conn.cursor()
 
