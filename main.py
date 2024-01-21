@@ -98,12 +98,16 @@ if __name__ == '__main__':
                             biography,
                             'campaign_platform'
                             'photo_url')
-                    VALUE(%%%%%%)
-
-
-
-
-""")
+                    VALUES(%s,%s,%s,%s,%s,%s)
+                        """,
+                            (candidate['candidate_id'],
+                             candidate['candidate_name'],
+                             candidate['party_affiliation'],
+                             candidate['biography'],
+                             candidate['campaign_platform'],
+                             candidate['photo_url']
+                    ))
+                cur.commit()
     except Exception as e:
         print(e)
 
