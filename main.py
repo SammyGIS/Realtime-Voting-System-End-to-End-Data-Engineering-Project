@@ -64,13 +64,11 @@ def generate_candidate_data(candidate_number, total_parties):
             'party_affliation': PARTIES[candidate_number % total_parties],
            'biography':  'A brief biography of the candidate',
            'campaign_platform': 'Key campaign promises and or platform',
-           'photo_url':user_data['picture']
+           'photo_url':user_data['picture']['large']
           }
-
-
-
-
     
+    else:
+        return('Error fecthing data')
 
 if __name__ == '__main__':
 
@@ -92,7 +90,20 @@ if __name__ == '__main__':
         if len(candidates) ==0:
             for i in range(3):
                 candidate = generate_candidate_data(i, total_parties=3)
+                print(candidate)
+                cur.execute("""
+                    INSERT INTO candidate(candidate_id,
+                            candidate_name,
+                            party_affliation,
+                            biography,
+                            'campaign_platform'
+                            'photo_url')
+                    VALUE(%%%%%%)
 
+
+
+
+""")
     except Exception as e:
         print(e)
 
