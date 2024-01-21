@@ -52,7 +52,7 @@ def create_tables (conn, cur):
        
         """)
     
-def generate_candidate_data(candiate_number, total_parties):
+def generate_candidate_data(candidate_number, total_parties):
     response = requests.get(BASE_URL+'&gender=' + ('female' if candidate_number %2 == 1 else 'male'))
     if response.status_code == 200:
         user_data = response.json()['results'][0]
@@ -60,15 +60,12 @@ def generate_candidate_data(candiate_number, total_parties):
 
         return {
             'candiate_id':user_data['login']['uuid'],
-            'candidate_name': f"{user_data['name']['first']} {user_data['name']['last']},
-            'party_affliation': PARTIES[candidate_number & total_parties],
+            'candidate_name': f"{user_data['name']['first']} {user_data['name']['last']}",
+            'party_affliation': PARTIES[candidate_number % total_parties],
            'biography':  'A brief biography of the candidate',
-           'campaign_platform': "Key campaign promises and or platform",
+           'campaign_platform': 'Key campaign promises and or platform',
            'photo_url':user_data['picture']
-
-
-
-        }
+          }
 
 
 
